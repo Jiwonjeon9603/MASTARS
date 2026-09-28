@@ -26,7 +26,6 @@ def parse_args():
         help="MPE only: 'all' or an int selecting data/mpe/<scenario>/<quality>/seed_<k>_data",
     )
     parser.add_argument("--data_dir", type=str, default=None, help="override config data_dir")
-    parser.add_argument("--weights", choices=["model", "ema"], default="model", help="which weights to load")
     parser.add_argument("--adapt_threshold", type=float, default=None, help="acceptance threshold on the transition-model error")
     parser.add_argument("--generate_episode_nums", type=int, default=None, help="stop once this many episodes are accepted")
     parser.add_argument("--max_generate_epochs", type=int, default=None, help="maximum number of generation batches")
@@ -160,7 +159,7 @@ def main():
         generate_batch_size=config.generate_batch_size,
         adapt_threshold=config.adapt_threshold,
     )
-    generator.load(args.checkpoint, weights=args.weights)
+    generator.load(args.checkpoint)
 
     # ---------------------------------------------------------- generation
     target = int(config.generate_episode_nums)

@@ -106,7 +106,6 @@ Segments are regenerated with MASTARS and kept only if the mean transition-model
 |---|---|
 | `--adapt_threshold` | acceptance threshold ε (Eq. 6 in the paper) |
 | `--generate_episode_nums` | number of episodes to accept |
-| `--weights {model,ema}` | which weights to sample from |
 | `--save_dir` | output root |
 
 > Observations and continuous actions are saved in the normalized space (`CDFNormalizer`, `[-1, 1]`). To recover raw values, fit the same normalizer on the source dataset (`SequenceDataset(...).normalizer`) and call `unnormalize`.

@@ -123,13 +123,13 @@ class Trainer:
         print(f"[ utils/training ] Saved model to {savepath}")
         return savepath
 
-    def load(self, path: str, weights: str = "model"):
-        """Load a checkpoint; `weights` selects the raw ("model") or EMA ("ema") weights."""
+    def load(self, path: str):
+        """Load the model weights from a checkpoint."""
         state = torch.load(path, map_location=self.device)
         self.step = state["step"]
-        self.model.load_state_dict(_remap_legacy_keys(state[weights]))
+        self.model.load_state_dict(_remap_legacy_keys(state["model"]))
         self.ema_model.load_state_dict(_remap_legacy_keys(state["ema"]))
-        print(f"[ utils/training ] Loaded {weights} weights from {path} (step {self.step})")
+        print(f"[ utils/training ] Loaded weights from {path} (step {self.step})")
 
 
 def _remap_legacy_keys(state_dict: dict) -> dict:
