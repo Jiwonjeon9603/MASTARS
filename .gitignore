@@ -1,0 +1,26 @@
+# Byte-compiled / packaging
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments / tooling
+.env
+.venv
+venv/
+.vscode/
+.idea/
+.DS_Store
+
+# Data, checkpoints and outputs
+data/
+data
+logs/
+generated_data/
+wandb/
+*.pt
+*.pkl
+*.npy
+*.npz
+*.log

@@ -1,0 +1,8 @@
+# torch is installed separately (see README) to match your CUDA version.
+diffusers==0.24.0
+einops
+numpy>=1.23.0
+PyYAML>=6.0
+scipy
+tqdm
+wandb

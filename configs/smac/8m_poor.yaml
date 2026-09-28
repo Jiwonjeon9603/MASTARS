@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------- dataset
+env_type: smac
+dataset: 8m-Poor
+data_dir: data
+n_agents: 8
+discrete_action: true
+max_path_length: 120
+# SMAC datasets have no per-seed split
+dataset_seed: null
+normalizer: CDFNormalizer
+
+# ------------------------------------------------------------------ model
+horizon: 8
+dim: 128
+dim_mults: [1, 4, 8]
+hidden_dim: 256
+n_diffusion_steps: 200
+returns_condition: true
+condition_dropout: 0.25
+condition_guidance_w: 1.2
+residual_attn: true
+loss_discount: 1.0
+discount: 0.99
+returns_scale: 20
+
+# --------------------------------------------------------------- training
+seed: 100
+n_train_steps: 100000
+batch_size: 32
+learning_rate: 0.0002
+gradient_accumulate_every: 2
+ema_decay: 0.995
+log_freq: 1000
+save_freq: 20000
+
+# ------------------------------------------------------------- generation
+generate_batch_size: 256
+adapt_threshold: 0.01
+generate_episode_nums: 1000
+max_generate_epochs: 100000
+bailout_epochs: 1000
+min_episodes: 10
