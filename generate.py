@@ -30,7 +30,6 @@ def parse_args():
     parser.add_argument("--adapt_threshold", type=float, default=None, help="acceptance threshold on the transition-model error")
     parser.add_argument("--generate_episode_nums", type=int, default=None, help="stop once this many episodes are accepted")
     parser.add_argument("--max_generate_epochs", type=int, default=None, help="maximum number of generation batches")
-    parser.add_argument("--no_subgoal", action="store_true", help="regenerate whole trajectories instead of the post-subgoal suffix")
     parser.add_argument("--save_dir", type=str, default=None, help="output directory (default: generated_data/<dataset>/...)")
     return parser.parse_args()
 
@@ -160,7 +159,6 @@ def main():
         device=device,
         generate_batch_size=config.generate_batch_size,
         adapt_threshold=config.adapt_threshold,
-        subgoal=not args.no_subgoal,
     )
     generator.load(args.checkpoint, weights=args.weights)
 

@@ -32,12 +32,10 @@ class Generator(Trainer):
         *args,
         generate_batch_size: int = 256,
         adapt_threshold: float = 0.01,
-        subgoal: bool = True,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.adapt_threshold = adapt_threshold
-        self.subgoal = subgoal
         self.buffer = EpisodeBuffer()
         self.generate_dataloader = cycle(
             torch.utils.data.DataLoader(
@@ -73,9 +71,8 @@ class Generator(Trainer):
         # (1) value-based subgoal: highest-value timestep per agent
         values = model.value_model(obs).squeeze(-1)  # [B x T x A]
         subgoal_time = values.argmax(dim=1)  # [B x A]
-        if self.subgoal:
-            time_range = torch.arange(T, device=obs.device).view(1, T, 1, 1).expand_as(obs)
-            prefix_mask = time_range <= subgoal_time.view(B, 1, A, 1)
+        time_range = torch.arange(T, device=obs.device).view(1, T, 1, 1).expand_as(obs)
+        prefix_mask = time_range <= subgoal_time.view(B, 1, A, 1)
 
         # (2) subgoal-based ordering: later subgoal -> generated earlier
         ordering = torch.argsort(subgoal_time, dim=-1, descending=True)  # [B x A]
@@ -87,8 +84,7 @@ class Generator(Trainer):
         for i in range(A):
             # True = known region (kept), False = region to generate
             keep = generated.view(B, 1, A, 1).expand_as(obs).clone()
-            if self.subgoal:
-                keep |= prefix_mask
+            keep |= prefix_mask
             keep[:, 0] = True
             kept_mask &= keep
 
